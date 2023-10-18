@@ -1,0 +1,17 @@
+> clean
+> compile
+$ exists target/streams
+$ exists module-1/target/streams
+$ exists module-2/target/streams
+> project module2
+> clean
+$ exists target/streams
+$ exists module-1/target/streams
+$ absent module-2/target/streams
+> project root
+> compile
+> project module2
+> cleanAll
+$ absent target/streams
+$ absent module-1/target/streams
+$ absent module-2/target/streams

@@ -1,0 +1,5 @@
+> clean
+> compile
+$ copy-file module-2/src/main/scala/io/kinoplan/sbt/clean/simple/Bar.scala module-1/src/main/scala/io/kinoplan/sbt/clean/simple/api/Bar.scala
+> compile
+> check
