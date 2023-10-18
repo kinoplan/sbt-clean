@@ -1,0 +1,21 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout current branch
+      uses: actions/checkout@v4
+    - name: Setup Java and Scala
+      uses: coursier/setup-action@v1
+      with:
+        jvm: temurin:8
+    - name: Cache scala dependencies
+      uses: coursier/cache-action@v6
+    - name: Format check & Test
+      run: |
+        sbt clean
+        sbt formatCheck
+        sbt scripted

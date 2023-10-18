@@ -1,0 +1,23 @@
+name: release
+on:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+
+env:
+  PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+  PGP_SECRET: ${{ secrets.PGP_SECRET }}
+  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: coursier/setup-action@v1
+        with:
+          jvm: temurin:8
+      - uses: coursier/cache-action@v6
+      - name: Publish
+        run: sbt clean ci-release
