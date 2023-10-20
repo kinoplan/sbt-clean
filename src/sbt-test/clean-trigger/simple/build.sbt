@@ -12,7 +12,7 @@ lazy val module2 = project
   .settings(
     cleanTriggerSources :=
       Seq(
-        (ThisBuild / baseDirectory).value / "module-1" / "src" / "main" / "scala" / "io" /
+        (ThisBuild / baseDirectory).value / "module-1" / "src" / "main" / "scala" / "tech" /
           "kinoplan" / "sbt" / "clean" / "simple" / "api"
       )
   )
