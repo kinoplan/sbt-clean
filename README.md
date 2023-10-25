@@ -2,7 +2,7 @@
 
 ![build](https://github.com/kinoplan/sbt-clean/workflows/build/badge.svg)
 [![Mergify Status](https://img.shields.io/endpoint.svg?url=https://api.mergify.com/v1/badges/kinoplan/utils?style=flat)](https://mergify.com)
-[![Maven Central](https://img.shields.io/maven-central/v/io.kinoplan/sbt-clean.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.kinoplan%22%20AND%20a:%22sbt-clean22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.kinoplan/sbt-clean_2.12_1.0.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=sbt-clean&smo=true&namespace=io.kinoplan)
 [![vscode](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/kinoplan/sbt-clean)
 
 
