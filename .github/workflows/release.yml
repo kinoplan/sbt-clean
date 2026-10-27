@@ -14,10 +14,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: coursier/setup-action@v1
+      - uses: actions/checkout@v7
+      - uses: coursier/setup-action@v3
         with:
           jvm: temurin:8
-      - uses: coursier/cache-action@v6
+      - uses: coursier/cache-action@v8
       - name: Publish
         run: sbt clean ci-release

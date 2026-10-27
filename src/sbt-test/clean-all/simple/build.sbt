@@ -1,4 +1,4 @@
-Global / scalaVersion := "2.13.12"
+Global / scalaVersion := "2.13.18"
 
 lazy val root = project.in(file(".")).aggregate(module1, module2)
 
