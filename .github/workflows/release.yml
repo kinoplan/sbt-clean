@@ -21,4 +21,4 @@ jobs:
           apps: sbt
       - uses: coursier/cache-action@v8
       - name: Publish
-        run: sbt clean ci-release
+        run: sbt ';clean;ci-release'
