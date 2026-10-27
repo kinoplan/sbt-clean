@@ -10,7 +10,7 @@ An sbt plugin that provides various functionality for advanced cleanup of scala 
 
 ## Setup
 
-This sbt plugin is available for sbt 1.x
+This sbt plugin is available for sbt 1.x (1.9.0 or later) and sbt 2.x (2.0.0 or later)
 
 To use the latest version of plugins, include the following in your `project/plugins.sbt`:
 

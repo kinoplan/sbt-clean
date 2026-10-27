@@ -7,15 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout current branch
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
     - name: Setup Java and Scala
-      uses: coursier/setup-action@v1
+      uses: coursier/setup-action@v3
       with:
-        jvm: temurin:8
+        jvm: temurin:17
+        apps: sbt
     - name: Cache scala dependencies
-      uses: coursier/cache-action@v6
+      uses: coursier/cache-action@v8
     - name: Format check & Test
       run: |
         sbt clean
         sbt formatCheck
-        sbt scripted
+        sbt +scripted

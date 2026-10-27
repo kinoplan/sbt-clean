@@ -5,6 +5,32 @@ description := "A set of plugins for sbt on advanced clean management"
 
 enablePlugins(SbtPlugin)
 
+addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.2.0")
+
+crossScalaVersions := Seq("2.12.21", "3.8.4")
+
+pluginCrossBuild / sbtVersion := (
+  scalaBinaryVersion.value match {
+    case "2.12" => "1.9.0"
+    case _      => "2.0.0"
+  }
+)
+
+// Keep the minimum supported sbt for compilation, but test on the latest sbt 1.
+scriptedSbt := (
+  scalaBinaryVersion.value match {
+    case "2.12" => "1.13.0"
+    case _      => "2.0.11"
+  }
+)
+
+scalacOptions ++= (
+  scalaBinaryVersion.value match {
+    case "2.12" => Seq("-release", "8")
+    case _      => Nil
+  }
+)
+
 scriptedLaunchOpts :=
   scriptedLaunchOpts.value ++ Seq("-Xmx1024M", "-Dplugin.version=" + version.value)
 
@@ -27,15 +53,14 @@ Test / tpolecatExcludeOptions += ScalacOptions.warnNonUnitStatement
 // format: off
 inThisBuild(
   List(
-    sonatypeCredentialHost := Sonatype.sonatype01,
     versionScheme := Some(VersionScheme.EarlySemVer),
     organization := "io.kinoplan",
-    homepage := Some(url("https://github.com/kinoplan/sbt-clean")),
-    licenses := Seq("Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")),
-    developers := List(Developer("kinoplan", "Kinoplan", "job@kinoplan.ru", url("https://kinoplan.tech"))),
+    homepage := Some(uri("https://github.com/kinoplan/sbt-clean")),
+    licenses := Seq(License("Apache-2.0", uri("https://opensource.org/licenses/Apache-2.0"))),
+    developers := List(Developer("kinoplan", "Kinoplan", "job@kinoplan.ru", uri("https://kinoplan.tech"))),
     scmInfo := Some(
       ScmInfo(
-        url("https://github.com/kinoplan/sbt-clean"),
+        uri("https://github.com/kinoplan/sbt-clean"),
         "scm:git:git@github.com:kinoplan/sbt-clean.git"
       )
     )

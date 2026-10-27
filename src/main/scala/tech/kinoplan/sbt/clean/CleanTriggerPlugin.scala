@@ -1,7 +1,12 @@
 package tech.kinoplan.sbt.clean
 
-import sbt.*
-import sbt.Keys.*
+import sbt._
+import sbt.Keys._
+
+// Required by Def.uncached on sbt 1; sbt 2 provides it natively.
+// scalafix:off
+import sbtcompat.PluginCompat._
+// scalafix:on
 
 object CleanTriggerPlugin extends AutoPlugin {
 
@@ -10,6 +15,7 @@ object CleanTriggerPlugin extends AutoPlugin {
     lazy val cleanTriggerSources =
       settingKey[Seq[File]]("Sources used to determine whether clean should be run")
 
+    @transient
     lazy val triggeredClean =
       taskKey[Unit]("Task that executes the clean task based on whether the sources is changed")
 
@@ -51,8 +57,7 @@ object CleanTriggerPlugin extends AutoPlugin {
         cacheDifferenceAction(files)
       }
     },
-    Compile / compile :=
-      (Compile / compile).dependsOn(triggeredClean).value
+    Compile / compile := Def.uncached((Compile / compile).dependsOn(triggeredClean).value)
   )
 
 }
