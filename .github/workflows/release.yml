@@ -18,6 +18,7 @@ jobs:
       - uses: coursier/setup-action@v3
         with:
           jvm: temurin:17
+          apps: sbt
       - uses: coursier/cache-action@v8
       - name: Publish
         run: sbt clean ci-release
