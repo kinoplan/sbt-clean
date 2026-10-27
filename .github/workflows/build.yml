@@ -11,11 +11,11 @@ jobs:
     - name: Setup Java and Scala
       uses: coursier/setup-action@v3
       with:
-        jvm: temurin:8
+        jvm: temurin:17
     - name: Cache scala dependencies
       uses: coursier/cache-action@v8
     - name: Format check & Test
       run: |
         sbt clean
         sbt formatCheck
-        sbt scripted
+        sbt +scripted

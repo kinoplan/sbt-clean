@@ -1,5 +1,16 @@
 > clean
 > compile
+> module2 / markTarget
+> compile
+> module2 / checkTarget
 $ copy-file module-2/src/main/scala/tech/kinoplan/sbt/clean/simple/Bar.scala module-1/src/main/scala/tech/kinoplan/sbt/clean/simple/api/Bar.scala
 > compile
-> check
+-> module2 / checkTarget
+> module2 / run
+> module2 / markTarget
+> compile
+> module2 / checkTarget
+$ delete module-1/src/main/scala/tech/kinoplan/sbt/clean/simple/api/Bar.scala
+> compile
+-> module2 / checkTarget
+> module2 / run

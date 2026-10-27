@@ -10,7 +10,7 @@ wants all of its channels (GitHub, etc.) to be inclusive environments.
 You will need the following tools:
 
 *   [Git][git]
-*   [Java 8][java-8]
+*   [Java 17][java-17]
 *   [SBT][sbt]
 
 ## Workflow
@@ -20,7 +20,8 @@ You will need the following tools:
 2.  [Write code](https://www.scala-sbt.org/1.x/docs/Plugins-Best-Practices.html)
 3.  [Write tests](https://www.scala-sbt.org/1.x/docs/Testing-sbt-plugins.html)
 4.  Run `sbt format` (or `sbt fix` and `sbt fmt` sequentially) before creating the pull request
-5.  [Submit a pull request](#submit-a-pull-request)
+5.  Run `sbt +scripted` to test both sbt versions
+6.  [Submit a pull request](#submit-a-pull-request)
 
 ## Formatting
 
@@ -83,7 +84,7 @@ then make the corrections and try again.
 
 [git]: https://git-scm.com/
 
-[java-8]: https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
+[java-17]: https://adoptium.net/temurin/releases/?version=17
 
 [remark-cli]: https://github.com/remarkjs/remark/tree/HEAD/packages/remark-cli
 

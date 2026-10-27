@@ -1,17 +1,21 @@
 > clean
 > compile
-$ exists target/streams
-$ exists module-1/target/streams
-$ exists module-2/target/streams
-> project module2
-> clean
-$ exists target/streams
-$ exists module-1/target/streams
-$ absent module-2/target/streams
-> project root
-> compile
-> project module2
-> cleanAll
-$ absent target/streams
-$ absent module-1/target/streams
-$ absent module-2/target/streams
+> root / markTarget
+> module1 / markTarget
+> module2 / markTarget
+> module2 / clean
+> root / checkTarget
+> module1 / checkTarget
+-> module2 / checkTarget
+> module2 / markTarget
+> module2 / cleanAll
+-> root / checkTarget
+-> module1 / checkTarget
+-> module2 / checkTarget
+> root / markTarget
+> module1 / markTarget
+> module2 / markTarget
+> module2 / cleanAll
+-> root / checkTarget
+-> module1 / checkTarget
+-> module2 / checkTarget

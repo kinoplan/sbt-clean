@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: coursier/setup-action@v3
         with:
-          jvm: temurin:8
+          jvm: temurin:17
       - uses: coursier/cache-action@v8
       - name: Publish
         run: sbt clean ci-release
