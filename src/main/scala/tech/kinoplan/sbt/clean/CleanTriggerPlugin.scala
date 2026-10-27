@@ -26,37 +26,44 @@ object CleanTriggerPlugin extends AutoPlugin {
   override lazy val buildSettings = Seq(cleanTriggerSources := Nil)
 
   override def projectSettings = Seq(
-    triggeredClean := {
-      val files = cleanTriggerSources
-        .value
-        .flatMap(source =>
-          if (source.isDirectory) (source ** "*").get().filterNot(_.isDirectory)
-          else Seq(source)
-        )
-        .toSet
-
-      if (files.nonEmpty) {
-        val taskStreams = streams.value: @sbtUnchecked
-
-        val cleanTarget = (inReport: ChangeReport[File], outReport: ChangeReport[File]) => {
-          IO.delete(target.value)
-
-          taskStreams
-            .log
-            .info(
-              s"Clean target directory and recompile project `${name.value}` due to detection " +
-                s"changes in the selected sources: \n" +
-                inReport.modified.map(_.getPath).mkString("\n")
+    triggeredClean :=
+      Def
+        .taskDyn {
+          val sources = cleanTriggerSources.value
+          val files = sources
+            .flatMap(source =>
+              if (source.isDirectory) (source ** "*").get().filterNot(_.isDirectory)
+              else Seq(source)
             )
+            .toSet
 
-          outReport.checked
+          if (sources.isEmpty) Def.task(())
+          else {
+            val taskStreams = streams.value: @sbtUnchecked
+            val cacheStore = taskStreams.cacheStoreFactory.make("in-cache")
+            val current = FileInfo.lastModified(files)
+            val previous = cacheStore.read(default = FilesInfo.empty[ModifiedFileInfo])
+            val changedFiles =
+              ((previous.files -- current.files) ++ (current.files -- previous.files)).map(_.file)
+
+            if (changedFiles.isEmpty) Def.task(())
+            else {
+              val projectName = name.value
+              Def.task {
+                val _ = clean.value
+                // clean may remove the cache too; record inputs only after it succeeds.
+                cacheStore.write(current)
+                taskStreams
+                  .log
+                  .info(
+                    s"Clean and recompile project `$projectName` due to changes in the selected sources: \n" +
+                      changedFiles.toSeq.map(_.getPath).sorted.mkString("\n")
+                  )
+              }
+            }
+          }
         }
-
-        val cacheDifferenceAction = FileFunction.cached(taskStreams.cacheStoreFactory)(cleanTarget)
-
-        cacheDifferenceAction(files)
-      }
-    },
+        .value,
     Compile / compile := Def.uncached((Compile / compile).dependsOn(triggeredClean).value)
   )
 

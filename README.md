@@ -25,7 +25,7 @@ where you need to replace `${version}` with the version you want to use.
 * **CleanAllPlugin**:
   * :rocket: *cleanAll*: Task that executes clean all projects in a build
 * **CleanTriggerPlugin**:
-  * :rocket: *triggeredClean*: Task that executes the clean task based on whether the sources is changed
+  * :rocket: *triggeredClean*: Task that executes the project's `clean` task when the configured sources change
   * :gear: *cleanTriggerSources* (**Default: Nil**): Sources used to determine whether clean should be run
 
 ## Example
@@ -50,7 +50,14 @@ Start by enabling the plugin for specific project:
 ```scala
 enablePlugins(CleanTriggerPlugin)
 ```
-then configure the sources whose changes will trigger the command to clean the `/target` folder and `compile` the project, for example:
+Before compilation, the plugin runs the project's standard `clean` task if any tracked
+files have changed. Directories are checked recursively, and the first run with
+tracked files also triggers cleanup.
+
+All standard cleanup settings and custom `clean` actions apply. Set
+`cleanTriggerSources := Nil` to disable this behavior.
+
+Configure the sources to track, for example:
 
 ```scala
 lazy val shared = project

@@ -16,9 +16,13 @@ lazy val module2 = project
   )
 
 @transient val markTarget = taskKey[Unit]("Create a marker to detect cleanup")
-@transient val checkTarget = taskKey[Unit]("Check whether cleanup has occurred")
+@transient val checkTarget = taskKey[Unit]("Check whether the target marker exists")
+@transient val checkTargetAbsent = taskKey[Unit]("Check that clean removed the target marker")
 
 module2 / markTarget := IO.touch((module2 / target).value / "clean-marker")
-module2 / checkTarget := assert(((module2 / target).value / "clean-marker").exists)
+module2 / checkTarget :=
+  assert(((module2 / target).value / "clean-marker").exists, "Target marker is missing")
+module2 / checkTargetAbsent :=
+  assert(!((module2 / target).value / "clean-marker").exists, "Clean did not remove the target marker")
 
 Global / onChangedBuildSource := ReloadOnSourceChanges

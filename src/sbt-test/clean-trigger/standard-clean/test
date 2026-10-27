@@ -1,0 +1,39 @@
+> prepare
+> compile
+$ exists clean-called
+$ absent extra-output
+> checkKept
+$ delete clean-called
+> prepare
+> compile
+$ absent clean-called
+$ exists extra-output
+> checkKept
+$ delete trigger.txt
+> compile
+$ exists clean-called
+$ absent extra-output
+> checkKept
+$ delete clean-called
+> prepare
+> compile
+$ absent clean-called
+$ exists extra-output
+> checkKept
+$ touch fail-clean
+> changeTrigger
+-> compile
+$ absent clean-called
+$ delete fail-clean
+> compile
+$ exists clean-called
+$ absent extra-output
+> checkKept
+$ delete clean-called
+> set cleanTriggerSources := Nil
+> prepare
+> changeTrigger
+> compile
+$ absent clean-called
+$ exists extra-output
+> checkKept
